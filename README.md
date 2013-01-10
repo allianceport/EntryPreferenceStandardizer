@@ -1,7 +1,3 @@
-% EntryPreferenceStandardizerプラグイン
-% 
-% 
-
 EntryPreferenceStandardizerプラグイン
 =====================================
 
