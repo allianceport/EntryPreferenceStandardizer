@@ -1,19 +1,29 @@
 id: entrypreferencestandardizer
 key: MT::Plugin::EntryPreferenceStandardizer
 name: EntryPreferenceStandardizer
-version: 0.3
+version: 0.31
 description: <MT_TRANS phrase='description of EntryPreferenceStandardizer'>
 author_name: Alliance Port, LLC.
 author_link: http://www.allianceport.jp/
 l10n_class: EntryPreferenceStandardizer::L10N
+#config_template: config_template.tmpl
 blog_config_template: blog_config_template.tmpl
+# system_config_template: system_config_template.tmpl
 settings:
     entry_preference_standardizer_enable:
         default: 0
+#applications:
+#    cms:
+#        methods:
+#            entry_preference_standardizer_view: $EntryPreferenceStandardizer::EntryPreferenceStandardizer::CMS::view
 callbacks:
     #----- Transformer
     MT::App::CMS::template_source.edit_entry: $EntryPreferenceStandardizer::EntryPreferenceStandardizer::Plugin::hdlr_edit_entry_source
+#    template_output.edit_entry: $EntryPreferenceStandardizer::EntryPreferenceStandardizer::Plugin::hdlr_edit_entry_output
     MT::App::CMS::template_param.edit_entry: $tEntryPreferenceStandardizerest::EntryPreferenceStandardizer::Plugin::hdlr_edit_entry_param
     #----- Hook
+    #cms_pre_save.entry: $EntryPreferenceStandardizer::EntryPreferenceStandardizer::Plugin::hdlr_cms_pre_save_entry
+    #cms_post_save.entry: $EntryPreferenceStandardizer::EntryPreferenceStandardizer::Plugin::hdlr_cms_post_save_entry
+    #build_page: $EntryPreferenceStandardizer::EntryPreferenceStandardizer::Plugin::hdlr_cb_build_page
     MT::Permission::post_save: $EntryPreferenceStandardizer::EntryPreferenceStandardizer::Plugin::hdr_permission_post_save
 

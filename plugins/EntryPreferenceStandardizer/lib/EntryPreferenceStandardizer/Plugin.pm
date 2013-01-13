@@ -138,7 +138,7 @@ sub hdr_permission_post_save {
                     my $prefs = $obj->page_prefs;
                     $each_result->page_prefs($prefs);
                 };
-                $row->save or die;
+                $each_result->save or die;
             };
         };
     };
