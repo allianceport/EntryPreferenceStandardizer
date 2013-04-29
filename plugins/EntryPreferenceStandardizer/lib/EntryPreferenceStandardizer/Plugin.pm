@@ -4,6 +4,8 @@ package EntryPreferenceStandardizer::Plugin;
 
 use strict;
 use warnings;
+use Data::Dumper;
+
 
 sub plugin {
     return MT->component('EntryPreferenceStandardizer');
@@ -46,7 +48,9 @@ sub hdlr_edit_entry_source {
     return unless $plugin_enable_check;
 
     my $type     = $instance->param('_type');
-    my $author_is_admin = $app->user->is_superuser;
+    my $author_is_admin = $app->user->is_superuser ? $app->user->is_superuser : 0;
+
+
 
     #もしAdminではないならば、対象のBlogのアドミンのアカウントのIDを取得する。
     if (! $author_is_admin){
@@ -60,15 +64,19 @@ sub hdlr_edit_entry_source {
         #アドミンのアカウントIDの、entry_prefs/page_prefsを取得して、現在のユーザのentry_prefs/page_prefsに格納する。
         use MT::Permission;
         my $admin_permission  = MT::Permission->load( { blog_id   => $blog_id,
-                                                        author_id => $admin_info->id },
+                                                        author_id => $admin_info->author_id },
                                                       { limit     => 1 } );
 
         my $author_permission = MT::Permission->load( { blog_id   => $blog_id,
                                                         author_id => $app->user->id },
                                                       { limit     => 1 } );
+
+
+
         if ($type eq 'entry') {
             my $prefs = $admin_permission->entry_prefs;
             $author_permission->entry_prefs($prefs);
+
         };
         if ($type eq 'page') {
             my $prefs = $admin_permission->page_prefs;
@@ -96,6 +104,9 @@ sub hdlr_edit_entry_param {
     return unless $plugin_enable_check;
 
     my $author_is_admin = $app->user->is_superuser;
+
+
+
     if (! $author_is_admin) {
             # Switch classes of mtapp:setting to sort-disabled
         my $settings = $tmpl->getElementsByTagName('app:setting');
@@ -108,6 +119,7 @@ sub hdlr_edit_entry_param {
         # Add CSS for class: .sort-disabled
         $param->{js_include} .= plugin->load_tmpl('sort_disable_css.tmpl')->text;
     }
+
     1;
 }
 
